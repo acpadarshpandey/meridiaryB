@@ -18,7 +18,7 @@ const app = express();
  
 
 if(process.env.NODE_ENV === "development"){
-    app.use(cors({origin: process.env.CLIENT_URL}));
+    app.use(cors());
 }
 
 mongoose.connect(process.env.DATABASE_URL,{
