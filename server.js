@@ -15,11 +15,8 @@ const app = express();
  app.use(bodyParser.urlencoded({extended:true}))
 
 
- 
+ app.use(cors());
 
-if(process.env.NODE_ENV === "development"){
-    app.use(cors());
-}
 
 mongoose.connect(process.env.DATABASE_URL,{
     useNewUrlParser: true,
