@@ -28,20 +28,7 @@ const UserSchema= new mongoose.Schema({
         resetPasswordLink :{
             data:String,
             default:'',
-        },
-        Notes: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref:'notes'
-            }
-        ],
-        Diaryentry:[
-            {
-                type:mongoose.Schema.Types.ObjectId,
-                ref:'editor'
-            }
-
-        ]
+        }
 
     
 },{timestamps:true})

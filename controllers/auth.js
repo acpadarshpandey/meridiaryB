@@ -1,12 +1,17 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 require("dotenv").config();
+const auth =require("../middleware/auth")
 
 
 
 exports.signUp = (req, res) => {
   const { name, email, password } = req.body;
-    
+
+  if(!name || !password || !email)
+  {
+    return res.status(400).json({msg:"pls enter all fields"});
+  }
   User.findOne({ email }).exec((err, user) => {
     if (err) {
       console.log(err);
@@ -26,19 +31,16 @@ exports.signUp = (req, res) => {
 
     let newUser = new User({ name, email, password });
 
-    newUser.save((err, userData) => {
-      if (err) {
-        console.log(err);
-
-        return res.status(400).json({
-          error: "Error saving the data!!",
-        });
-      }
-
-      res.json({
-        message: `Hey ${name}, welcome to the app!!`,
+    newUser.save((userData) => {
+    
+      const token = jwt.sign({ id: userData._id }, process.env.JWT_SECRET, {
+        expiresIn: 3600
       });
-    });
+     return res.json({
+       token,
+        message: `Hey ${name}, welcome to the app!!`,   
+      });
+    })
   });
 };
 
@@ -78,3 +80,8 @@ exports.signIn = (req, res) => {
     });
   });
 };
+
+exports.getUser=(req,res)=>{
+      const user =  User.findById(req.user._id).select('-hashed_password')
+    .then(user=> res.json(user))
+}

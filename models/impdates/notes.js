@@ -9,10 +9,7 @@ const Notesapp=new Schema({
     date:{
         type:String,
     },
-    writer:{
-        type:Schema.Types.ObjectId,
-        ref:'User'
-    }
+    
 });
 
  module.exports= model("notes",Notesapp);
